@@ -1,0 +1,27 @@
+### Create new category
+POST http://localhost:1337/category
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk1ZGFhMjhiLTE4OGYtNDkyNi1iYmNlLTllMWI1ZGRhNjczNiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTY4ODgzNTMxMSwiZXhwIjoxNjg5MDk0NTExfQ.unnwPng2mnWnANX4SkypcmEHaozyt3K7cTZI6YELQLE
+
+{
+    "title": "Test"
+}
+
+### Find all categories
+GET http://localhost:1337/category?page=1&limit=10
+
+### Find single category
+GET http://localhost:1337/category/7eb300c2-0578-4b0e-8e04-677bfa8b85c7
+
+### Update category
+PATCH http://localhost:1337/category/7eb300c2-0578-4b0e-8e04-677bfa8b85c7
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk1ZGFhMjhiLTE4OGYtNDkyNi1iYmNlLTllMWI1ZGRhNjczNiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTY4ODgzNTMxMSwiZXhwIjoxNjg5MDk0NTExfQ.unnwPng2mnWnANX4SkypcmEHaozyt3K7cTZI6YELQLE
+
+{
+    "title": "Changed!"
+}
+
+### Delete category
+DELETE http://localhost:1337/category/7eb300c2-0578-4b0e-8e04-677bfa8b85c7
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk1ZGFhMjhiLTE4OGYtNDkyNi1iYmNlLTllMWI1ZGRhNjczNiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTY4ODgzNTMxMSwiZXhwIjoxNjg5MDk0NTExfQ.unnwPng2mnWnANX4SkypcmEHaozyt3K7cTZI6YELQLE

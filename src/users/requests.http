@@ -1,0 +1,25 @@
+### Toggle place (like, unlike place).
+POST http://localhost:1337/users/toggle-like/d904097f-86e6-4cf9-983f-da571aa50bbd
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY5MzczZGZiLTg0ZTQtNDBlMS1iZTFmLThjZjUwNDg4YThmZiIsInJvbGUiOiJUT1VSSVNUIiwiaWF0IjoxNjg4ODQyNzAwLCJleHAiOjE2ODkxMDE5MDB9.l6oA7n0o5bfjZHYpGtqGLQwVPEJYjXLQ5IfwVm4DCM8
+Content-Type: application/json
+
+{
+
+}
+
+### Toggle place (visit, unvisit place).
+POST http://localhost:1337/users/toggle-visit/d904097f-86e6-4cf9-983f-da571aa50bbd
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY5MzczZGZiLTg0ZTQtNDBlMS1iZTFmLThjZjUwNDg4YThmZiIsInJvbGUiOiJUT1VSSVNUIiwiaWF0IjoxNjg4ODQyNzAwLCJleHAiOjE2ODkxMDE5MDB9.l6oA7n0o5bfjZHYpGtqGLQwVPEJYjXLQ5IfwVm4DCM8
+Content-Type: application/json
+
+{
+
+}
+
+### Get history (likedPlaces, savedPlaces, visitedPlaced).
+GET http://localhost:1337/users/places-history
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY5MzczZGZiLTg0ZTQtNDBlMS1iZTFmLThjZjUwNDg4YThmZiIsInJvbGUiOiJUT1VSSVNUIiwiaWF0IjoxNjg4ODQyNzAwLCJleHAiOjE2ODkxMDE5MDB9.l6oA7n0o5bfjZHYpGtqGLQwVPEJYjXLQ5IfwVm4DCM8
+
+### Get List of tourists
+GET http://localhost:1337/users?page=1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk1ZGFhMjhiLTE4OGYtNDkyNi1iYmNlLTllMWI1ZGRhNjczNiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTY5MDA1MjM0MSwiZXhwIjoxNjkwMzExNTQxfQ.qojEZbGNvG1oSpvy8iNL3M3D4GNiCTRhtN64GVbmYIo

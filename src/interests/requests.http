@@ -1,0 +1,45 @@
+### Create new interest
+POST http://localhost:1337/interests
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk1ZGFhMjhiLTE4OGYtNDkyNi1iYmNlLTllMWI1ZGRhNjczNiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTY4ODgzNTMxMSwiZXhwIjoxNjg5MDk0NTExfQ.unnwPng2mnWnANX4SkypcmEHaozyt3K7cTZI6YELQLE
+
+{
+    "title": "Singing"
+}
+
+### Find all interests
+GET http://localhost:1337/interests?page=1&limit=10
+
+### Find single interest 
+GET http://localhost:1337/interests/5cce0341-93af-4574-afd6-c6bb1de7915a
+
+### Update interest details
+PATCH http://localhost:1337/interests/5cce0341-93af-4574-afd6-c6bb1de7915a
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk1ZGFhMjhiLTE4OGYtNDkyNi1iYmNlLTllMWI1ZGRhNjczNiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTY4ODgzNTMxMSwiZXhwIjoxNjg5MDk0NTExfQ.unnwPng2mnWnANX4SkypcmEHaozyt3K7cTZI6YELQLE
+
+{
+    "title": "Changed!"
+}
+
+### Delete interest
+DELETE http://localhost:1337/interests/5cce0341-93af-4574-afd6-c6bb1de7915a
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk1ZGFhMjhiLTE4OGYtNDkyNi1iYmNlLTllMWI1ZGRhNjczNiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTY4ODgzNTMxMSwiZXhwIjoxNjg5MDk0NTExfQ.unnwPng2mnWnANX4SkypcmEHaozyt3K7cTZI6YELQLE
+
+### Get own Interests
+GET http://localhost:1337/interests/my-interests
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY5MzczZGZiLTg0ZTQtNDBlMS1iZTFmLThjZjUwNDg4YThmZiIsInJvbGUiOiJUT1VSSVNUIiwiaWF0IjoxNjg4ODQyNzAwLCJleHAiOjE2ODkxMDE5MDB9.l6oA7n0o5bfjZHYpGtqGLQwVPEJYjXLQ5IfwVm4DCM8
+
+### Add Own Interests 
+POST http://localhost:1337/interests/my-interests/62ee048d-2c36-49f9-9cbc-41741b25d646
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY5MzczZGZiLTg0ZTQtNDBlMS1iZTFmLThjZjUwNDg4YThmZiIsInJvbGUiOiJUT1VSSVNUIiwiaWF0IjoxNjg4ODQyNzAwLCJleHAiOjE2ODkxMDE5MDB9.l6oA7n0o5bfjZHYpGtqGLQwVPEJYjXLQ5IfwVm4DCM8
+Content-Type: application/json
+
+{
+
+}
+
+### Remove Own Interest
+DELETE http://localhost:1337/interests/my-interests/5f93245b-c386-435c-94b8-1e9becab9e85
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY5MzczZGZiLTg0ZTQtNDBlMS1iZTFmLThjZjUwNDg4YThmZiIsInJvbGUiOiJUT1VSSVNUIiwiaWF0IjoxNjg4ODQyNzAwLCJleHAiOjE2ODkxMDE5MDB9.l6oA7n0o5bfjZHYpGtqGLQwVPEJYjXLQ5IfwVm4DCM8
+Content-Type: application/json

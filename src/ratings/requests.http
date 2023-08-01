@@ -1,0 +1,21 @@
+### Create new rating
+POST http://localhost:1337/ratings/d904097f-86e6-4cf9-983f-da571aa50bbd
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY5MzczZGZiLTg0ZTQtNDBlMS1iZTFmLThjZjUwNDg4YThmZiIsInJvbGUiOiJUT1VSSVNUIiwiaWF0IjoxNjg4ODQyNzAwLCJleHAiOjE2ODkxMDE5MDB9.l6oA7n0o5bfjZHYpGtqGLQwVPEJYjXLQ5IfwVm4DCM8
+
+{
+    "rating": 5,
+    "comment": "Good Place!"
+}
+
+### Get all ratings of that user (own).
+GET http://localhost:1337/ratings
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY5MzczZGZiLTg0ZTQtNDBlMS1iZTFmLThjZjUwNDg4YThmZiIsInJvbGUiOiJUT1VSSVNUIiwiaWF0IjoxNjg4ODQyNzAwLCJleHAiOjE2ODkxMDE5MDB9.l6oA7n0o5bfjZHYpGtqGLQwVPEJYjXLQ5IfwVm4DCM8
+
+### Get single rating 
+GET http://localhost:1337/ratings/8878ee1a-94c6-42fc-84a6-89bc37154bf7
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY5MzczZGZiLTg0ZTQtNDBlMS1iZTFmLThjZjUwNDg4YThmZiIsInJvbGUiOiJUT1VSSVNUIiwiaWF0IjoxNjg4ODQyNzAwLCJleHAiOjE2ODkxMDE5MDB9.l6oA7n0o5bfjZHYpGtqGLQwVPEJYjXLQ5IfwVm4DCM8
+
+### Delete rating.
+DELETE http://localhost:1337/ratings/8878ee1a-94c6-42fc-84a6-89bc37154bf7
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY5MzczZGZiLTg0ZTQtNDBlMS1iZTFmLThjZjUwNDg4YThmZiIsInJvbGUiOiJUT1VSSVNUIiwiaWF0IjoxNjg4ODQyNzAwLCJleHAiOjE2ODkxMDE5MDB9.l6oA7n0o5bfjZHYpGtqGLQwVPEJYjXLQ5IfwVm4DCM8
