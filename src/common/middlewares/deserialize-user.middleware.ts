@@ -13,7 +13,11 @@ export class DeserializeUserMiddleware implements NestMiddleware {
     private readonly usersService: UsersService,
   ) {}
 
-  async use(req: ITourismRecommenderRequest, __: Response, next: NextFunction) {
+  async use(
+    req: ITourismRecommenderRequest,
+    res: Response,
+    next: NextFunction,
+  ) {
     const token = get(req, 'headers.authorization', '').replace(
       /^Bearer\s/,
       '',
@@ -21,17 +25,23 @@ export class DeserializeUserMiddleware implements NestMiddleware {
 
     if (!token) return next();
 
-    const decoded = this.jwtService.verify<JwtPayloadType>(token);
+    try {
+      const decoded = this.jwtService.verify<JwtPayloadType>(token);
 
-    if (decoded) {
-      const user = await this.usersService.findOne({
-        where: { id: decoded.id },
-        relations: { picture: true },
-      });
+      if (decoded) {
+        const user = await this.usersService.findOne({
+          where: { id: decoded.id },
+          relations: { picture: true },
+        });
 
-      req.currentUser = omit(user, 'password');
+        req.currentUser = omit(user, 'password');
 
-      return next();
+        return next();
+      }
+    } catch (e) {
+      res
+        .status(401)
+        .json({ status: false, error: 'JWT token is inavlid or expired!' });
     }
 
     return next();
