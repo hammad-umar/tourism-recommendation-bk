@@ -17,6 +17,11 @@ import { Interest } from '../interests/interest.entity';
 import { Category } from '../category/category.entity';
 import { FileUploadService } from '../common/services/file-upload.service';
 import { User } from '../users/user.entity';
+import { Rating } from '../ratings/rating.entity';
+
+type PlaceWithScore = {
+  score: number;
+} & Place;
 
 @Injectable()
 export class PlacesService {
@@ -323,7 +328,91 @@ export class PlacesService {
     return destinationsPlaces;
   }
 
-  async recommendationsPlaces(userId: string) {
+  private async _contentBasedRecommendations(
+    userPrefrences: Interest[],
+  ): Promise<PlaceWithScore[]> {
+    const recommendationsPlaces: PlaceWithScore[] = [];
+
+    const userPrefrencesNames = userPrefrences.map(
+      (prefrence) => prefrence.title,
+    );
+
+    const allPlaces = await this.placesRepository.find({
+      relations: { interests: true, ratings: true },
+    });
+
+    allPlaces.forEach((place) => {
+      let score = 0;
+
+      place.interests.forEach(({ title }) => {
+        if (userPrefrencesNames.includes(title)) {
+          score++;
+        }
+      });
+
+      if (score > 0) {
+        recommendationsPlaces.push({ ...place, score });
+      }
+    });
+
+    recommendationsPlaces.sort((a, b) => b.score - a.score);
+    return recommendationsPlaces;
+  }
+
+  private async _collaborativeBasedRecommendations(userId: string) {
+    const allPlaces = await this.placesRepository.find({
+      relations: {
+        ratings: { user: { ratings: true } },
+        interests: true,
+      },
+    });
+
+    const userRatings: Rating[] = [];
+
+    allPlaces.forEach((place) => {
+      place.ratings.forEach((rating) => {
+        if (rating.user.id === userId) {
+          userRatings.push(rating);
+        }
+      });
+    });
+
+    if (!userRatings) {
+      return [];
+    }
+
+    const similarUsers: User[] = [];
+
+    userRatings.forEach((rating) => {
+      if (rating.user.id === userId) {
+        similarUsers.push(rating.user);
+      }
+    });
+
+    const recommendationsPlaces: PlaceWithScore[] = [];
+
+    similarUsers.forEach(({ id }) => {
+      allPlaces.forEach((place) => {
+        place.ratings.forEach((rating) => {
+          userRatings.forEach((userRating) => {
+            if (rating.user.id === id && userRating.id !== id) {
+              recommendationsPlaces.push({
+                ...place,
+                score: place.ratings.length,
+              });
+            }
+          });
+        });
+      });
+    });
+
+    recommendationsPlaces.sort((a, b) => b.score - a.score);
+    return recommendationsPlaces;
+  }
+
+  async recommendationsPlaces(userId: string): Promise<PlaceWithScore[]> {
+    let recommendationsPlaces: PlaceWithScore[] = [];
+
     const user = await this.entityManager.findOne(User, {
       where: { id: userId },
       relations: {
@@ -332,30 +421,40 @@ export class PlacesService {
       },
     });
 
-    const filteredPlaces = [];
-    const recommendations = [];
-    const userInterestIds = user.interests.map((interest) => interest.id);
+    const contentBasedPlaces = await this._contentBasedRecommendations(
+      user.interests,
+    );
 
-    for (let i = 0; i < userInterestIds.length; i++) {
-      const places = await this.placesRepository.find({
-        where: { interests: { id: userInterestIds[i] } },
-        relations: {
-          interests: true,
-          ratings: true,
-          category: true,
-          picture: true,
-        },
-      });
+    const collaborativeBasedPlaces =
+      await this._collaborativeBasedRecommendations(user.id);
 
-      filteredPlaces.push(places);
-    }
+    recommendationsPlaces = [
+      ...contentBasedPlaces,
+      ...collaborativeBasedPlaces,
+    ];
 
-    for (let j = 0; j < filteredPlaces.length; j++) {
-      for (let k = 0; k < filteredPlaces[j].length; k++) {
-        recommendations.push(filteredPlaces[j][k]);
-      }
-    }
+    return recommendationsPlaces;
 
-    return recommendations;
+    //   const filteredPlaces = [];
+    //   const recommendations = [];
+    //   const userInterestIds = user.interests.map((interest) => interest.id);
+    //   for (let i = 0; i < userInterestIds.length; i++) {
+    //     const places = await this.placesRepository.find({
+    //       where: { interests: { id: userInterestIds[i] } },
+    //       relations: {
+    //         interests: true,
+    //         ratings: true,
+    //         category: true,
+    //         picture: true,
+    //       },
+    //     });
+    //     filteredPlaces.push(places);
+    //   }
+    //   for (let j = 0; j < filteredPlaces.length; j++) {
+    //     for (let k = 0; k < filteredPlaces[j].length; k++) {
+    //       recommendations.push(filteredPlaces[j][k]);
+    //     }
+    //   }
+    //   return recommendations;
   }
 }
