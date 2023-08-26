@@ -1,6 +1,5 @@
 import { Module, ValidationPipe } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import * as Joi from 'joi';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { DatabaseModule } from './common/database/database.module';
@@ -15,16 +14,6 @@ import { RatingsModule } from './ratings/ratings.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      validationSchema: Joi.object({
-        // PORT: Joi.number().required(),
-        // JWT_SECRET: Joi.string().required(),
-        // JWT_EXPIRES: Joi.string().required(),
-        // SQLITE_DATABASE: Joi.string().required(),
-        // SQLITE_SYNCHRONIZE: Joi.boolean().required(),
-        // CLOUDINARY_CLOUD_NAME: Joi.string().required(),
-        // CLOUDINARY_API_KEY: Joi.string().required(),
-        // CLOUDINARY_API_SECRET: Joi.string().required(),
-      }),
     }),
 
     DatabaseModule,
