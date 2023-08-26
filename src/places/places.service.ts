@@ -23,6 +23,12 @@ type PlaceWithScore = {
   score: number;
 } & Place;
 
+type Demographics = {
+  age: number;
+  location: string;
+  gender: string;
+};
+
 @Injectable()
 export class PlacesService {
   constructor(
@@ -304,6 +310,7 @@ export class PlacesService {
           picture: true,
           category: true,
           ratings: true,
+          interests: true,
         },
       });
 
@@ -317,6 +324,7 @@ export class PlacesService {
           picture: true,
           category: true,
           ratings: true,
+          interests: true,
         },
       });
 
@@ -338,7 +346,12 @@ export class PlacesService {
     );
 
     const allPlaces = await this.placesRepository.find({
-      relations: { interests: true, ratings: true },
+      relations: {
+        interests: true,
+        ratings: true,
+        category: true,
+        picture: true,
+      },
     });
 
     allPlaces.forEach((place) => {
@@ -364,6 +377,8 @@ export class PlacesService {
       relations: {
         ratings: { user: { ratings: true } },
         interests: true,
+        category: true,
+        picture: true,
       },
     });
 
@@ -410,7 +425,7 @@ export class PlacesService {
     return recommendationsPlaces;
   }
 
-  private async _demographicBasedFilterings() {
+  private async _demographicBasedFilterings(user: User) {
     // ...
   }
 
