@@ -457,7 +457,11 @@ export class PlacesService {
 
     recommendationsPlaces = [contentBasedPlaces, collaborativeBasedPlaces];
 
-    return uniq(recommendationsPlaces);
+    const [a, b] = recommendationsPlaces;
+
+    const c = [...a, ...b];
+
+    return c;
 
     //   const filteredPlaces = [];
     //   const recommendations = [];
