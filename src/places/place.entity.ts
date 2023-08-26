@@ -31,6 +31,13 @@ export class Place extends AbstractEntity<Place> {
     longitude: number;
   };
 
+  @Column({ type: 'simple-json', nullable: true })
+  demographics?: {
+    age: number;
+    location: string;
+    gender: string;
+  };
+
   @Column({ default: 0, type: 'float' })
   averageRating: number;
 

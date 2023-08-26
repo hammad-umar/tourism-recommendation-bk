@@ -28,6 +28,13 @@ export class User extends AbstractEntity<User> {
     longitude: number;
   };
 
+  @Column({ type: 'simple-json', nullable: true })
+  demographics?: {
+    age: number;
+    location: string;
+    gender: string;
+  };
+
   @OneToOne(() => Picture, {
     nullable: true,
     cascade: true,

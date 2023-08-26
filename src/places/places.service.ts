@@ -410,6 +410,10 @@ export class PlacesService {
     return recommendationsPlaces;
   }
 
+  private async _demographicBasedFilterings() {
+    // ...
+  }
+
   async recommendationsPlaces(userId: string): Promise<PlaceWithScore[]> {
     let recommendationsPlaces: PlaceWithScore[] = [];
 
