@@ -207,4 +207,23 @@ export class UsersService {
       return await this.usersRepository.save(user);
     }
   }
+
+  async addDemographics(
+    { location, gender, age }: any,
+    userId: string,
+  ): Promise<User> {
+    const user = await this.usersRepository.findOne({
+      where: {
+        id: userId,
+      },
+    });
+
+    if (!user?.demographics) {
+      user.demographics.location = location;
+      user.demographics.gender = gender;
+      user.demographics.age = age;
+    }
+
+    return this.usersRepository.save(user);
+  }
 }

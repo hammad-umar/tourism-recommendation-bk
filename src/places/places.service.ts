@@ -339,7 +339,7 @@ export class PlacesService {
   private async _contentBasedRecommendations(
     userPrefrences: Interest[],
   ): Promise<PlaceWithScore[]> {
-    const recommendationsPlaces: PlaceWithScore[] = [];
+    let recommendationsPlaces: PlaceWithScore[] = [];
 
     const userPrefrencesNames = userPrefrences.map(
       (prefrence) => prefrence.title,
@@ -368,6 +368,11 @@ export class PlacesService {
       }
     });
 
+    const ids = recommendationsPlaces.map(({ id }) => id);
+    // recommendationsPlaces = recommendationsPlaces.filter(
+    //   ({ id }, index) => !ids.includes(id, index + 1),
+    // );
+    recommendationsPlaces = uniq(recommendationsPlaces);
     recommendationsPlaces.sort((a, b) => b.score - a.score);
     return recommendationsPlaces;
   }
@@ -404,24 +409,27 @@ export class PlacesService {
       }
     });
 
-    const recommendationsPlaces: PlaceWithScore[] = [];
+    let recommendationsPlaces: Place[] = [];
 
     similarUsers.forEach(({ id }) => {
       allPlaces.forEach((place) => {
         place.ratings.forEach((rating) => {
           userRatings.forEach((userRating) => {
             if (rating.user.id === id && userRating.id !== id) {
-              recommendationsPlaces.push({
-                ...place,
-                score: place.ratings.length,
-              });
+              recommendationsPlaces.push(place);
             }
           });
         });
       });
     });
 
-    recommendationsPlaces.sort((a, b) => b.score - a.score);
+    // const ids = recommendationsPlaces.map(({ id }) => id);
+    // recommendationsPlaces = recommendationsPlaces.filter(
+    //   ({ id }, index) => !ids.includes(id, index + 1),
+    // );
+
+    recommendationsPlaces = uniq(recommendationsPlaces);
+
     return recommendationsPlaces;
   }
 
@@ -430,7 +438,7 @@ export class PlacesService {
   }
 
   async recommendationsPlaces(userId: string): Promise<PlaceWithScore[]> {
-    let recommendationsPlaces: PlaceWithScore[] = [];
+    let recommendationsPlaces: any[] = [];
 
     const user = await this.entityManager.findOne(User, {
       where: { id: userId },
@@ -447,12 +455,9 @@ export class PlacesService {
     const collaborativeBasedPlaces =
       await this._collaborativeBasedRecommendations(user.id);
 
-    recommendationsPlaces = [
-      ...contentBasedPlaces,
-      ...collaborativeBasedPlaces,
-    ];
+    recommendationsPlaces = [contentBasedPlaces, collaborativeBasedPlaces];
 
-    return recommendationsPlaces;
+    return uniq(recommendationsPlaces);
 
     //   const filteredPlaces = [];
     //   const recommendations = [];
@@ -475,5 +480,24 @@ export class PlacesService {
     //     }
     //   }
     //   return recommendations;
+  }
+
+  async addDemographics(
+    { location, gender, age }: any,
+    placeId: string,
+  ): Promise<Place> {
+    const place = await this.placesRepository.findOne({
+      where: {
+        id: placeId,
+      },
+    });
+
+    if (!place?.demographics) {
+      place.demographics.location = location;
+      place.demographics.gender = gender;
+      place.demographics.age = age;
+    }
+
+    return this.placesRepository.save(place);
   }
 }

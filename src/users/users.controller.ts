@@ -1,10 +1,12 @@
 import {
+  Body,
   Controller,
   DefaultValuePipe,
   Delete,
   Get,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
   Query,
   UseGuards,
@@ -74,5 +76,16 @@ export class UsersController {
   @Roles(Role.ADMIN)
   async deleteUser(@Param('id') id: string) {
     return this.usersService.delete(id);
+  }
+
+  @Patch('/demographics')
+  @UseGuards(JwtAuthGuard)
+  @Roles(Role.TOURIST)
+  async addDemographics(
+    @Param('id') id: string,
+    @CurrentUser() user: User,
+    @Body() demographicsDto: any,
+  ) {
+    return this.usersService.addDemographics(demographicsDto, user.id);
   }
 }

@@ -36,6 +36,16 @@ export class PlacesController {
     return this.placesService.recommendationsPlaces(user.id);
   }
 
+  @Patch('/demographics/:placeId')
+  @UseGuards(JwtAuthGuard)
+  @Roles(Role.TOURIST)
+  async addDemographics(
+    @Param('placeId') id: string,
+    @Body() demographicsDto: any,
+  ) {
+    return this.placesService.addDemographics(demographicsDto, id);
+  }
+
   @Get()
   async allPlaces(
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
