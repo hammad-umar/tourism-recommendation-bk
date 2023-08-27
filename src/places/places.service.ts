@@ -368,12 +368,9 @@ export class PlacesService {
       }
     });
 
-    const ids = recommendationsPlaces.map(({ id }) => id);
-    // recommendationsPlaces = recommendationsPlaces.filter(
-    //   ({ id }, index) => !ids.includes(id, index + 1),
-    // );
     recommendationsPlaces = uniq(recommendationsPlaces);
     recommendationsPlaces.sort((a, b) => b.score - a.score);
+
     return recommendationsPlaces;
   }
 
@@ -423,18 +420,12 @@ export class PlacesService {
       });
     });
 
-    // const ids = recommendationsPlaces.map(({ id }) => id);
-    // recommendationsPlaces = recommendationsPlaces.filter(
-    //   ({ id }, index) => !ids.includes(id, index + 1),
-    // );
-
     recommendationsPlaces = uniq(recommendationsPlaces);
-
     return recommendationsPlaces;
   }
 
   private async _demographicBasedFilterings(user: User) {
-    // ...
+    // add logic here for demographics filtering ...
   }
 
   async recommendationsPlaces(userId: string): Promise<PlaceWithScore[]> {
@@ -456,34 +447,9 @@ export class PlacesService {
       await this._collaborativeBasedRecommendations(user.id);
 
     recommendationsPlaces = [contentBasedPlaces, collaborativeBasedPlaces];
+    const [contentBasedRecs, collaborativeBasedRecs] = recommendationsPlaces;
 
-    const [a, b] = recommendationsPlaces;
-
-    const c = [...a, ...b];
-
-    return c;
-
-    //   const filteredPlaces = [];
-    //   const recommendations = [];
-    //   const userInterestIds = user.interests.map((interest) => interest.id);
-    //   for (let i = 0; i < userInterestIds.length; i++) {
-    //     const places = await this.placesRepository.find({
-    //       where: { interests: { id: userInterestIds[i] } },
-    //       relations: {
-    //         interests: true,
-    //         ratings: true,
-    //         category: true,
-    //         picture: true,
-    //       },
-    //     });
-    //     filteredPlaces.push(places);
-    //   }
-    //   for (let j = 0; j < filteredPlaces.length; j++) {
-    //     for (let k = 0; k < filteredPlaces[j].length; k++) {
-    //       recommendations.push(filteredPlaces[j][k]);
-    //     }
-    //   }
-    //   return recommendations;
+    return [...contentBasedRecs, ...collaborativeBasedRecs];
   }
 
   async addDemographics(
